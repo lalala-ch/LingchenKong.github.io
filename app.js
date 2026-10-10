@@ -22,11 +22,9 @@ fetch('profile.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error();return 
    <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Menu</span></button>
   </header>
   <aside class="site-sidebar">
-   <p class="sidebar-label">On this page</p>
    <nav id="site-navigation" aria-label="Page sections">
     <a href="#about">About Me</a><a href="#research">Research Interests</a>${p.news?'<a href="#news">News</a>':''}<a href="#publications">Publications</a>${repository?'<a href="#repository">Repository</a>':''}
    </nav>
-   ${p.affiliation?`<p class="sidebar-note">${esc(p.affiliation)}</p>`:''}
   </aside>
   <button class="nav-backdrop" id="nav-backdrop" type="button" aria-label="Close navigation" tabindex="-1" aria-hidden="true"></button>
   <section class="hero" id="top">
