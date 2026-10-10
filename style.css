@@ -3,3 +3,5 @@
 .social-links{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-top:20px}.social-icon{display:inline-flex;width:42px;height:42px;align-items:center;justify-content:center;color:var(--purple);border-radius:6px;transition:color .15s,background .15s}.social-icon svg{width:34px;height:34px;display:block}.social-icon:hover{color:#7a6993;background:#eae3f1;text-decoration:none}.social-icon.linkedin:hover{color:#0a66c2}.social-icon.scholar:hover{color:#4285f4}@media(max-width:450px){.social-links{justify-content:center;gap:11px}}
 
 .contact-email{overflow-wrap:anywhere}.hero .contact-email{margin-top:16px}
+
+.repositories{list-style:none;padding:0;margin:0}.repositories li{margin:0 0 18px}.repositories h3{font-size:18px;font-weight:500;margin:0 0 5px}.repositories p{margin:0 0 6px;line-height:1.6}.repository-url{font-size:14px;overflow-wrap:anywhere}.repository-edit{border:1px solid #d5ccdf;border-radius:6px;background:#faf9fb;padding:18px;margin:18px 0}

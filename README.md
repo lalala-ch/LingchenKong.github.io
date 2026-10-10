@@ -17,6 +17,7 @@
 - 也可以直接在 GitHub 编辑 profile.json。
 - 照片：上传 photo.jpg，在编辑面板将照片路径设为 photo.jpg。
 - CV：上传 cv.pdf，将 CV 路径设为 cv.pdf；也支持外部 https 链接。
+- 开源仓库：在编辑面板的 Repository 栏目填写仓库名称、链接和简介，可添加或删除条目。下载并上传 profile.json 后生效。
 - News 留空时隐藏；每行一条动态。
 - 论文年份和期刊状态都由你填写，不会自动推断。
 
