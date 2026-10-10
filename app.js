@@ -14,5 +14,66 @@ function repositorySection(p){const projects=Array.isArray(p.repositories)?p.rep
 
 fetch('profile.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(p=>{
  const repository=repositorySection(p);
- document.title=p.name+' | Research';document.getElementById('content').innerHTML=`<header><a href="#">${esc(p.name)}</a><nav><a href="#about">About</a><a href="#research">Research</a><a href="#publications">Publications</a>${repository?'<a href="#repository">Repository</a>':''}</nav></header><section class="hero"><div class="photo">${safe(p.photo)?`<img src="${safe(p.photo)}" alt="${esc(p.name)}">`:`<div class="placeholder">${esc(p.chineseName||'LK')}</div>`}</div><div><h1>${esc(p.name)} <span>(${esc(p.chineseName)})</span></h1><p>${esc(p.headline)}</p><p>${esc(p.affiliation)}</p>${p.email?`<p class="contact-email">E-mail: ${esc(p.email)}</p>`:''}<div class="links social-links" aria-label="Professional profiles and contact">${socialLinks(p)}</div></div></section><section id="about"><h2>About Me</h2><p class="bio">${esc(p.bio)}</p></section><section id="research"><h2>Research Interests</h2><ul>${String(p.interests||'').split('\n').filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section>${p.news?`<section><h2>News</h2><ul>${p.news.split('\n').filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section>`:''}<section id="publications"><h2>Publications</h2>${p.publications?.length?`<ol class="papers">${p.publications.map((raw,i)=>{const x=BibtexIEEE.fromPaper(raw);return `<li><span class="refNumber">[${i+1}]</span><div class="reference">${BibtexIEEE.format(x).map(part=>{let t=esc(part.text);if(part.link&&safe(part.link))t=link(part.link,t);if(part.italic)t='<em>'+t+'</em>';return t}).join('')}${x.bibtex?`<details><summary>BibTeX</summary><pre>${esc(x.bibtex)}</pre></details>`:''}</div></li>`}).join('')}</ol>`:'<p class="muted">Publication details will be added soon.</p>'}</section>${repository}<footer><span>© ${new Date().getFullYear()} ${esc(p.name)}</span><a href="edit.html">Edit / 编辑内容</a></footer>`
+ document.title=p.name+' | Research';
+ document.getElementById('content').innerHTML=`
+  <header class="site-header">
+   <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">LK</span><span>${esc(p.name)}</span></a>
+   <span class="site-label">Academic Homepage</span>
+   <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-controls="site-navigation" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Menu</span></button>
+  </header>
+  <aside class="site-sidebar">
+   <p class="sidebar-label">On this page</p>
+   <nav id="site-navigation" aria-label="Page sections">
+    <a href="#about">About Me</a><a href="#research">Research Interests</a>${p.news?'<a href="#news">News</a>':''}<a href="#publications">Publications</a>${repository?'<a href="#repository">Repository</a>':''}
+   </nav>
+   ${p.affiliation?`<p class="sidebar-note">${esc(p.affiliation)}</p>`:''}
+  </aside>
+  <button class="nav-backdrop" id="nav-backdrop" type="button" aria-label="Close navigation" tabindex="-1" aria-hidden="true"></button>
+  <section class="hero" id="top">
+   <div class="photo">${safe(p.photo)?`<img src="${safe(p.photo)}" alt="${esc(p.name)}">`:`<div class="placeholder">${esc(p.chineseName||'LK')}</div>`}</div>
+   <div>
+    <h1>${esc(p.name)} ${p.chineseName?`<span>(${esc(p.chineseName)})</span>`:''}</h1>
+    <p class="headline">${esc(p.headline)}</p>
+    <p class="affiliation">${esc(p.affiliation)}</p>
+    ${p.email?`<p class="contact-email">E-mail: ${esc(p.email)}</p>`:''}
+    <div class="social-links" aria-label="Professional profiles">${socialLinks(p)}</div>
+   </div>
+  </section>
+  <section id="about"><h2>About Me</h2><p class="bio">${esc(p.bio)}</p></section>
+  <section id="research"><h2>Research Interests</h2><ul>${String(p.interests||'').split('\n').filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section>
+  ${p.news?`<section id="news"><h2>News</h2><ul>${p.news.split('\n').filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></section>`:''}
+  <section id="publications">
+   <h2>Publications</h2>
+   ${p.publications?.length?`<ol class="papers">${p.publications.map((raw,i)=>{
+    const x=BibtexIEEE.fromPaper(raw);
+    return `<li><span class="refNumber">[${i+1}]</span><div class="reference">${BibtexIEEE.format(x).map(part=>{
+     let t=esc(part.text);
+     if(part.link&&safe(part.link))t=link(part.link,t);
+     if(part.italic)t='<em>'+t+'</em>';
+     return t;
+    }).join('')}${x.bibtex?`<details><summary>BibTeX</summary><pre>${esc(x.bibtex)}</pre></details>`:''}</div></li>`;
+   }).join('')}</ol>`:'<p class="muted">Publication details will be added soon.</p>'}
+  </section>
+  ${repository}
+  <footer><span>© ${new Date().getFullYear()} ${esc(p.name)}</span><a href="#top">Back to top ↑</a></footer>`;
+
+ const toggle=document.getElementById('menu-toggle');
+ const closeNav=(returnFocus=false)=>{
+  document.body.classList.remove('nav-open');
+  toggle.setAttribute('aria-expanded','false');
+  toggle.setAttribute('aria-label','Open navigation');
+  if(returnFocus)toggle.focus();
+ };
+ toggle.addEventListener('click',()=>{
+  const open=toggle.getAttribute('aria-expanded')!=='true';
+  document.body.classList.toggle('nav-open',open);
+  toggle.setAttribute('aria-expanded',String(open));
+  toggle.setAttribute('aria-label',open?'Close navigation':'Open navigation');
+ });
+ document.getElementById('nav-backdrop').addEventListener('click',()=>closeNav(true));
+ document.getElementById('site-navigation').addEventListener('click',e=>{if(e.target.closest('a'))closeNav()});
+ document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&toggle.getAttribute('aria-expanded')==='true')closeNav(true);
+ });
+ window.matchMedia('(max-width:1024px)').addEventListener('change',()=>closeNav());
 }).catch(()=>document.getElementById('content').innerHTML='<p>Could not load profile.json. Please refresh.</p>');

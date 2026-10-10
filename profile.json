@@ -10,7 +10,7 @@
   "linkedin": "https://www.linkedin.com/in/lingchen-kong-8938963a7/",
   "cv": "LingchenKong_CV.pdf",
   "photo": "assets/portrait.png",
-  "interests": "Array signal processing\nMIMO & millimeter-wave radar\nIntegrated sensing & communications\nSAR / InSAR imaging",
+  "interests": "Array & Radar Signal Processing\nSpectral Analysis\nAdaptive Filtering Theory\nMachine Learning",
   "news": "",
   "repositories": [
     {
@@ -26,7 +26,9 @@
       "venue": "IEEE Transactions on Antennas and Propagation",
       "year": "2026",
       "url": "10.1109/TAP.2026.3717336",
-      "bibtex": "@ARTICLE{11640347,\n  author={Kong, Lingchen and Li, Xiaojun and Xia, Guozhen and Liu, Moran and Zhou, Chen},\n  journal={IEEE Transactions on Antennas and Propagation}, \n  title={Machine-Learning-Based Regional Nowcasting Method for HF Maximum Usable Frequency Driven by Ionospheric Total Electron Content: A Case Study of North China}, \n  year={2026},\n  volume={74},\n  number={10},\n  pages={9966-9980},\n  keywords={Modeling;Joining processes;Transformers;Machine learning;Testing;Hafnium;Storms;Training;ITU;Support vector machines;High-frequency (HF) communication;machine learning;maximum usable frequency (MUF) nowcasting;total electron content},\n  doi={10.1109/TAP.2026.3717336}}\n"
+      "bibtex": "@ARTICLE{11640347,\n  author={Kong, Lingchen and Li, Xiaojun and Xia, Guozhen and Liu, Moran and Zhou, Chen},\n  journal={IEEE Transactions on Antennas and Propagation}, \n  title={Machine-Learning-Based Regional Nowcasting Method for HF Maximum Usable Frequency Driven by Ionospheric Total Electron Content: A Case Study of North China}, \n  year={2026},\n  month=oct,\n  volume={74},\n  number={10},\n  pages={9966-9980},\n  keywords={Modeling;Joining processes;Transformers;Machine learning;Testing;Hafnium;Storms;Training;ITU;Support vector machines;High-frequency (HF) communication;machine learning;maximum usable frequency (MUF) nowcasting;total electron content},\n  doi={10.1109/TAP.2026.3717336}}\n",
+      "citationTitle": "Machine-learning-based regional nowcasting method for HF maximum usable frequency driven by ionospheric total electron content: A case study of North China",
+      "journalAbbreviation": "IEEE Trans. Antennas Propag."
     }
   ]
 }

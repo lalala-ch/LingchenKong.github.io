@@ -1,26 +1,36 @@
 # Lingchen Kong — Personal Academic Homepage
 
-独立的 GitHub Pages 个人主页，不依赖 ChatGPT 登录、数据库或服务。
+个人学术主页，包含简介、研究兴趣、论文及开源仓库。
 
-## 首次上线
+## 维护内容
 
-1. 创建公开仓库 `LingchenKong.github.io`，勾选 Add a README file，使默认分支为 main。
-2. 将本目录所有文件上传到仓库根目录。
-3. Settings → Pages → Build and deployment：Source 选 Deploy from a branch，Branch 选 main，目录选 / (root)，Save。
-4. 等待 GitHub 发布，打开 https://lalala-ch.github.io/LingchenKong.github.io/ 。
+网站提供浏览功能，不包含网页编辑页面。内容修改由仓库所有者通过 GitHub 或本地文件完成。
 
-## 自己维护，不必修改 HTML
+- `profile.json`：姓名、简介、Gmail、Google Scholar、LinkedIn、研究兴趣、论文及开源仓库。
+- `repositories` 中的每个条目包含 `name`、`url`、`description`。
+- `assets/portrait.png`：用户提供的圆形照片，保留上传原文件。主页只调整显示尺寸，不裁剪或重绘图片。
+- `LingchenKong_CV.pdf`：个人简历。
+- `app.js`、`style.css`、`index.html`：页面结构、排版和样式。
+- `bibtex.js`：BibTeX 解析与 IEEE 风格引用。
 
-- 在主页页底点击 Edit / 编辑内容。
-- 修改表单、添加论文及 BibTeX，下载新的 profile.json。
-- 点击上传链接，上传 profile.json 覆盖同名文件，然后 Commit changes。只有有仓库写入权限的人能发布修改。
-- 也可以直接在 GitHub 编辑 profile.json。
-- 照片：上传 photo.jpg，在编辑面板将照片路径设为 photo.jpg。
-- CV：上传 cv.pdf，将 CV 路径设为 cv.pdf；也支持外部 https 链接。
-- 开源仓库：在编辑面板的 Repository 栏目填写仓库名称、链接和简介，可添加或删除条目。下载并上传 profile.json 后生效。
-- News 留空时隐藏；每行一条动态。
-- 论文年份和期刊状态都由你填写，不会自动推断。
+修改后提交到 `main`。论文可在 `profile.json.publications` 中维护 BibTeX；仓库链接可在 `profile.json.repositories` 中添加或删除。
 
-GitHub Pages 是静态托管。编辑表单的下载并不等于发布，必须提交到 GitHub。网站无需额外付费的后端、账号服务或浏览器中存储令牌。
+## 论文引用
 
-文件：index.html / style.css / app.js 为展示页面；edit.html / editor.js 为编辑表单；profile.json 为内容数据。
+论文正文采用 IEEE 引用格式，期刊使用 ISO 4 缩写，引用正文不显示 DOI。
+
+- `citationTitle` 可填写用于引用的句式大小写标题。
+- `journalAbbreviation` 可填写经核实的 ISO 4 期刊缩写；当前期刊使用 `IEEE Trans. Antennas Propag.`。
+- BibTeX 的 `month`、`year`、`volume`、`number` 和 `pages` 用于生成出版信息。原始 DOI 保留在 BibTeX 中，供文献管理使用。
+
+## 托管与可见性
+
+GitHub Free 的 Pages 仅支持公开仓库。将本仓库设为私密后，不再以 GitHub Pages 托管。若以后使用支持私密源仓库的账户方案或其他托管服务，可重新部署同一套静态文件。
+
+网站公开访问与源仓库可见性是不同设置；修改源文件仍需 GitHub 写入权限。
+
+## 设计参考与图标
+
+布局、字体、配色参考 [szl2/jemdoc-new-design](https://github.com/szl2/jemdoc-new-design)，保留简洁的学术主页排版，并增加适合手机的折叠菜单。
+
+第三方来源与授权见 `THIRD_PARTY_NOTICES.md` 及 `licenses/jemdoc-new-design.txt`。
