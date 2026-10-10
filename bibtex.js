@@ -1,0 +1,34 @@
+/* BibTeX reader and IEEE-style web reference formatter; no network dependency. */
+(function(root){
+'use strict';
+function parse(text){
+ let i=0;const entries=[],strings={jan:'Jan.',feb:'Feb.',mar:'Mar.',apr:'Apr.',may:'May',jun:'Jun.',jul:'Jul.',aug:'Aug.',sep:'Sep.',oct:'Oct.',nov:'Nov.',dec:'Dec.'};
+ const fail=m=>{throw new Error(m+'（位置 '+(i+1)+'）')};
+ function space(){while(i<text.length){if(/\s/.test(text[i]))i++;else if(text[i]==='%'){while(i<text.length&&text[i]!=='\n')i++}else break}}
+ function group(open,close){if(text[i]!==open)fail('缺少 '+open);i++;let depth=1,out='';while(i<text.length){const c=text[i++];if(c==='\\'){out+=c;if(i<text.length)out+=text[i++];continue}if(c===open)depth++;if(c===close&&!--depth)return out;out+=c}fail('括号没有闭合')}
+ function quoted(){i++;let out='',depth=0;while(i<text.length){const c=text[i++];if(c==='\\'){out+=c;if(i<text.length)out+=text[i++];continue}if(c==='{')depth++;if(c==='}')depth--;if(c==='"'&&depth===0)return out;out+=c}fail('引号没有闭合')}
+ function value(close){let out='';do{space();if(text[i]==='{')out+=group('{','}');else if(text[i]==='"')out+=quoted();else{const start=i;while(i<text.length&&!/[\s,#]/.test(text[i])&&text[i]!==close)i++;const token=text.slice(start,i);if(!token)fail('字段值为空');out+=strings[token.toLowerCase()]??token}space();if(text[i]!=='#')break;i++}while(i<text.length);return out}
+ while(i<text.length){space();if(i>=text.length)break;if(text[i]!=='@'){i++;continue}const start=i++;const t=/^[a-z]+/i.exec(text.slice(i));if(!t)fail('无效的 BibTeX 类型');const type=t[0].toLowerCase();i+=t[0].length;space();const open=text[i],close=open==='{'?'}':')';if(!['{','('].includes(open))fail('缺少条目括号');
+ if(type==='comment'){group(open,close);continue}i++;space();if(type==='preamble'){value(close);space();if(text[i]!==close)fail('缺少结束括号');i++;continue}
+ if(type==='string'){const m=/^[\w:-]+/.exec(text.slice(i));if(!m)fail('无效的字符串宏');i+=m[0].length;space();if(text[i++]!=='=')fail('缺少等号');strings[m[0].toLowerCase()]=value(close);space();if(text[i]===',')i++;space();if(text[i++]!==close)fail('缺少结束括号');continue}
+ const keyStart=i;while(i<text.length&&text[i]!==','&&text[i]!==close)i++;const key=text.slice(keyStart,i).trim();if(text[i++]!==',')fail('缺少引用键后的逗号');const fields={};
+ while(i<text.length){space();if(text[i]===close){i++;break}if(text[i]===','){i++;continue}const m=/^[\w:-]+/.exec(text.slice(i));if(!m)fail('无效的字段名');i+=m[0].length;space();if(text[i++]!=='=')fail('字段后缺少等号');fields[m[0].toLowerCase()]=value(close);space();if(text[i]!==','&&text[i]!==close)fail('字段之间缺少逗号')}
+ if(text[i-1]!==close)fail('条目没有闭合');entries.push({type,key,fields,bibtex:text.slice(start,i)});
+ }
+ if(!entries.length)throw new Error('没有找到论文条目，请粘贴 @article{...} 或 @inproceedings{...}。');
+ return entries;
+}
+function clean(s){
+ return String(s||'').replace(/\\(["'`^~=\.uvHckbd])\s*\{?([A-Za-z])\}?/g,(_,a,c)=>{const marks={'"':'\u0308',"'":'\u0301','`':'\u0300','^':'\u0302','~':'\u0303','=':'\u0304','.':'\u0307',u:'\u0306',v:'\u030c',H:'\u030b',c:'\u0327',k:'\u0328',b:'\u0331',d:'\u0323'};return(c+(marks[a]||'')).normalize('NFC')}).replace(/\\(?:textit|textbf|emph|textrm|textsc|texttt)\s*/g,'').replace(/\\(ae|AE|oe|OE|aa|AA|o|O|ss|l|L)\b/g,(_,s)=>({ae:'æ',AE:'Æ',oe:'œ',OE:'Œ',aa:'å',AA:'Å',o:'ø',O:'Ø',ss:'ß',l:'ł',L:'Ł'}[s])).replace(/\\([&%_$#{}])/g,'$1').replace(/[{}]/g,'').replace(/---/g,'—').replace(/--/g,'–').replace(/~/g,' ').replace(/\s+/g,' ').trim();
+}
+function splitAuthors(s){const a=[];let start=0,depth=0;for(let i=0;i<s.length;i++){if(s[i]==='{')depth++;if(s[i]==='}')depth--;if(!depth&&/^\s+and\s+/i.test(s.slice(i))){const m=/^\s+and\s+/i.exec(s.slice(i))[0];a.push(s.slice(start,i).trim());i+=m.length-1;start=i+1}}a.push(s.slice(start).trim());return a.filter(Boolean)}
+function author(s){if(s.startsWith('{')&&s.endsWith('}'))return clean(s);if(s.toLowerCase()==='others')return 'et al.';s=clean(s);let family,given,suffix='';const a=s.split(',').map(s=>s.trim());if(a.length>=2){family=a[0];given=a[a.length-1];if(a.length===3)suffix=', '+a[1]}else{const tokens=s.split(/\s+/);let k=tokens.length-1;while(k>0&&/^[a-z]/.test(tokens[k-1]))k--;family=tokens.slice(k).join(' ');given=tokens.slice(0,k).join(' ')}const initials=given.split(/\s+/).filter(Boolean).map(w=>w.split('-').map(v=>v?v[0].toUpperCase()+'.':'').join('-')).join(' ');return(initials?initials+' ':'')+family+suffix}
+function authors(s){let a=splitAuthors(s||'').map(author);if(a.length>6)return a[0]+' et al.';if(a[a.length-1]==='et al.')return a.slice(0,-1).join(', ')+' et al.';if(a.length>1)return a.slice(0,-1).join(', ')+', and '+a[a.length-1];return a[0]||''}
+function normalize(e){const f=e.fields;return {title:clean(f.title),authors:authors(f.author),venue:clean(f.journal||f.booktitle||f.publisher||f.school||f.institution),year:clean(f.year),url:f.doi?'https://doi.org/'+clean(f.doi).replace(/^(?:https?:\/\/(?:dx\.)?doi\.org\/|doi:\s*)/i,''):clean(f.url),bibtex:e.bibtex,type:e.type,fields:f}}
+function format(p){const f=p.fields||{},type=p.type||'article',parts=[];if(p.authors)parts.push({text:p.authors+', '});if(p.title)parts.push({text:['book','manual'].includes(type)?p.title+'. ':'“'+p.title.replace(/[.]$/,'')+',” ',link:p.url,italic:['book','manual'].includes(type)});
+ const venue=p.venue;if(venue){let text=venue;if(['inproceedings','conference','incollection'].includes(type))text='in '+text;parts.push({text:text,italic:['article','inproceedings','conference','incollection','book'].includes(type)})}
+ const rest=[];if(f.edition)rest.push(clean(f.edition)+' ed.');if(f.volume)rest.push('vol. '+clean(f.volume));if(f.number)rest.push('no. '+clean(f.number));if(f.pages)rest.push((/[–—-]/.test(f.pages)?'pp. ':'p. ')+clean(f.pages).replace(/(\d)\s*[-–—]+\s*(?=\d)/g,'$1–'));else if(f.eid||f.articleno)rest.push('Art. no. '+clean(f.eid||f.articleno));if(type==='phdthesis')rest.push('Ph.D. dissertation');if(type==='mastersthesis')rest.push("M.S. thesis");if(type==='techreport')rest.push('Tech. Rep.'+(f.number?' '+clean(f.number):''));if(f.month)rest.push(clean(f.month)+(p.year?' '+p.year:''));else if(p.year)rest.push(p.year);if(rest.length)parts.push({text:(venue?', ':'')+rest.join(', ')});parts.push({text:'.'});if(f.doi)parts.push({text:' doi: '+clean(f.doi).replace(/^https?:\/\/(?:dx\.)?doi\.org\//i,'')+'.',link:p.url});return parts;
+}
+function fromPaper(p){if(p.bibtex?.trim()){try{return normalize(parse(p.bibtex)[0])}catch{}}return {...p,authors:/(\sand\s|,)/.test(p.authors||'')?authors(p.authors):p.authors}}
+const api={parse,clean,authors,normalize,format,fromPaper};root.BibtexIEEE=api;if(typeof module!=='undefined')module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
