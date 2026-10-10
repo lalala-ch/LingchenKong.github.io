@@ -11,7 +11,7 @@
   "cv": "LingchenKong_CV.pdf",
   "photo": "assets/portrait.png",
   "interests": "Array & Radar Signal Processing\nSpectral Analysis\nAdaptive Filtering Theory\nMachine Learning",
-  "news": "",
+  "news": "[Oct. 2026] Our paper “Machine-Learning-Based Regional Nowcasting Method for HF Maximum Usable Frequency Driven by Ionospheric Total Electron Content: A Case Study of North China” has been published in *IEEE Trans. Antennas Propag.*",
   "repositories": [
     {
       "name": "ArraySignalProcessing",

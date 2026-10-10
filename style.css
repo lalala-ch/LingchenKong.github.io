@@ -159,6 +159,7 @@ h2 {
 .bio { margin: 0; white-space: pre-line; text-align: justify; line-height: 1.7; }
 ul { margin: 0; padding-left: 22px; list-style-type: square; }
 li { margin: 5px 0; }
+.news-list { list-style-type: disc; }
 .papers { margin: 0; padding: 0; list-style: none; }
 .papers li {
   display: grid;
