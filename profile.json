@@ -3,13 +3,22 @@
   "chineseName": "孔令宸",
   "headline": "Array signal processing · Radar · ISAC",
   "affiliation": "Wuhan University",
-  "bio": "My research interests lie in array signal processing, MIMO radar imaging, and integrated sensing and communications. I am interested in connecting estimation theory and efficient algorithms with practical sensing systems.",
-  "email": "",
+  "bio": "I am a Master student in the school of Earth and Space Science and Technology, Wuhan University. I received my B.S. degree at School of Electronic Information, Wuhan University in 2024.\n\nMy research interest lies at array&radar signal processing, spectral analysis and adaptive filtering theory. My aim is to develop novel signal processing and machine learning techniques and apply them to 6G wireless communication, Integrated Sensing and Communication(ISAC), radar system for robotics and autonomus. \n\nI am also eager at sharing my knowledge to others through open-source projects. I think researchers should be transparent with each other and collaborate for the development of humankind.",
+  "email": "lingchenkong12@gmail.com(prefer);konglingchen@whu.edu.cn",
   "github": "https://github.com/lalala-ch/ArraySignalProcessing",
   "scholar": "",
   "cv": "LingchenKong_CV.pdf",
   "photo": "",
   "interests": "Array signal processing\nMIMO & millimeter-wave radar\nIntegrated sensing & communications\nSAR / InSAR imaging",
   "news": "",
-  "publications": []
+  "publications": [
+    {
+      "title": "Machine-Learning-Based Regional Nowcasting Method for HF Maximum Usable Frequency Driven by Ionospheric Total Electron Content: A Case Study of North China",
+      "authors": "Kong, Lingchen and Li, Xiaojun and Xia, Guozhen and Liu, Moran and Zhou, Chen",
+      "venue": "IEEE Transactions on Antennas and Propagation",
+      "year": "2026",
+      "url": "10.1109/TAP.2026.3717336",
+      "bibtex": "@ARTICLE{11640347,\n  author={Kong, Lingchen and Li, Xiaojun and Xia, Guozhen and Liu, Moran and Zhou, Chen},\n  journal={IEEE Transactions on Antennas and Propagation}, \n  title={Machine-Learning-Based Regional Nowcasting Method for HF Maximum Usable Frequency Driven by Ionospheric Total Electron Content: A Case Study of North China}, \n  year={2026},\n  volume={74},\n  number={10},\n  pages={9966-9980},\n  keywords={Modeling;Joining processes;Transformers;Machine learning;Testing;Hafnium;Storms;Training;ITU;Support vector machines;High-frequency (HF) communication;machine learning;maximum usable frequency (MUF) nowcasting;total electron content},\n  doi={10.1109/TAP.2026.3717336}}\n"
+    }
+  ]
 }
