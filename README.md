@@ -2,6 +2,12 @@
 
 个人学术主页，包含简介、研究兴趣、论文及开源仓库。
 
+**[访问个人主页 / Visit my homepage](https://lalala-ch.github.io/LingchenKong.github.io/)**
+
+主页地址：<https://lalala-ch.github.io/LingchenKong.github.io/>
+
+在 GitHub 仓库首页，可点击右侧 **About** 下的网站链接，或点击本 README 上方的“访问个人主页”。
+
 ## 维护内容
 
 网站提供浏览功能，不包含网页编辑页面。内容修改由仓库所有者通过 GitHub 或本地文件完成。
