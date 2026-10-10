@@ -160,6 +160,7 @@ h2 {
 ul { margin: 0; padding-left: 22px; list-style-type: square; }
 li { margin: 5px 0; }
 .news-list { list-style-type: disc; }
+.news-list strong { font-weight: 700; color: var(--ink); }
 .papers { margin: 0; padding: 0; list-style: none; }
 .papers li {
   display: grid;
